@@ -349,12 +349,26 @@ n_women*p_female*(1-p_female)</code></pre>
 <pre class="r"><code>#np(1-p)&gt;5
 #Normal Approximation of Binominal
 var_men = p_male*(1-p_male)/n_man
-var_women = p_female*(1-p_female)
+var_women = p_female*(1-p_female)/n_women
 #95%CI 
 CI = c((p_male - p_female) - qnorm(0.975)*sqrt(var_men+var_women), (p_male - p_female) + qnorm(0.975)*sqrt(var_men+var_women)) 
 CI</code></pre>
-<pre><code>## [1] -0.7597167  1.0430076</code></pre>
-<p>Interpretation: We are 95% confident that the true mean difference of difference proportions of men vs women admitted at Berkeley would be in (-0.7597167,1.0430076)</p>
+<pre><code>## [1] 0.1134470 0.1698439</code></pre>
+<p>Interpretation: We are 95% confident that the true mean difference of difference proportions of men vs women admitted at Berkeley would be in (0.1134470,0.1698439)</p>
+<pre class="r"><code>#H0:p1 = p2; H1: p1!=p2
+z_test = function(p1,p2,n1,n2){
+  p = (n1*p1+n2*p2)/(n1+n2);
+  z_stat = (abs(p1-p2)-(1/(2*n1) + 1/(2*n2)))/sqrt(p*(1-p)*(1/n1 + 1/n2));
+  return(z_stat)
+}
+ z_stat = z_test(0.45,0.30,2691,1835)
+#pvalue
+  pvalue = 2*(1-pnorm(z_stat))
+  pvalue</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>qnorm(0.975)</code></pre>
+<pre><code>## [1] 1.959964</code></pre>
+<p>z_stat &gt; z0.975.At the 0.05 significance level,we reject H0 and conclude that the proportion of women admitted at Berkeley is different with the proportion of men admitted at Berkeley.</p>
 </div>
 
 
