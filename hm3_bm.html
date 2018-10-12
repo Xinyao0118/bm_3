@@ -242,12 +242,7 @@ CI = c((d1_mean - d2_mean) - qt(0.975,18)*s*sqrt(1/10+1/10), (d1_mean - d2_mean)
 CI</code></pre>
 <pre><code>## [1] -0.4214324  4.0414324</code></pre>
 <p>Interpretation: We are 95% confident that the true mean difference of Bmi over 6 years changes between women who quitted smoking and who never smoked would be in (-0.421, 4.041)</p>
-<pre class="r"><code>#smokers: mu = 3.0, sd = 2.0
-#never smokers: mu = 1.7, sd = 1.5
-#2.5% significance level
-
-# 5% significance level</code></pre>
-<p>Question a: I would design the study as a prespective cohort study since we have specific exposures and source population. In cohort study we needn`t to care much about randomizaton but we do need to care about subjects choosing. The location of choosing place may cause bias, for example, if we choose subjects from the hospital, the results may seem not true. Also, age, health condition, habits of exercises,nutrition differences can also cause bias. So we should make sure all of the factors that may cause BMI change among the two group subjects are the same.</p>
+<p>Question a: I would design the study as a prespective cohort study since we have specific exposures and source population. In cohort study we needn`t to care much about randomizaton but we do need to care about subjects choosing. The location of choosing place may cause bias, for example, if we choose subjects from the hospital, the results may seem not true. Also, age, health condition, habits of exercises,nutrition differences can also cause bias. So we should make sure all of the factors that may cause BMI change among the two group subjects are the same. Question b was written on the paper(attached in pdf)</p>
 </div>
 <div id="problem3" class="section level1">
 <h1>problem3</h1>
@@ -286,6 +281,33 @@ qf(0.99,2,22)</code></pre>
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Because F_stat = 19.28 &gt; F0.99,2,22 = 5.72 , p-value = 1.45e-05, fail to reject H0. At 0.01 significance level, we reject the null hypothesis and conclude that at least two of mean days required in physical therapy from three groups are different.</p>
+<pre class="r"><code>#pairwise comparisons 
+#bonferroni
+pairwise.t.test(new_data$time, new_data$ind,p.adj='bonferroni')</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  new_data$time and new_data$ind 
+## 
+##   1       2     
+## 2 0.0898  -     
+## 3 1.1e-05 0.0011
+## 
+## P value adjustment method: bonferroni</code></pre>
+<pre class="r"><code>#Tukey
+TukeyHSD(res1)</code></pre>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = time ~ factor(ind), data = new_data)
+## 
+## $`factor(ind)`
+##           diff       lwr        upr     p adj
+## 2-1  -5.000000 -10.41130  0.4113011 0.0736833
+## 3-1 -14.428571 -20.33278 -8.5243579 0.0000102
+## 3-2  -9.428571 -15.05051 -3.8066356 0.0010053</code></pre>
+<pre class="r"><code>#Dunnett</code></pre>
+<p>The bonferroni,Tukey and Dunnut results all indicate that there is a statistically significant difference between the “below” and “above” and “averange” and “above”. But Turkey`s p-value is smaller than bonferroni.</p>
 </div>
 
 

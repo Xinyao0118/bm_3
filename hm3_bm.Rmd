@@ -83,25 +83,17 @@ CI
 ```
 Interpretation: We are 95% confident that the true mean difference of Bmi over 6 years changes between women who quitted smoking and who never smoked would be in (-0.421, 4.041)
 
-```{r p2_4}
 
-#smokers: mu = 3.0, sd = 2.0
-#never smokers: mu = 1.7, sd = 1.5
-#2.5% significance level
-
-# 5% significance level
-
-```
 Question a: 
 I would design the study as a prespective cohort study since we have specific exposures and source population. 
 In cohort study we needn`t to care much about randomizaton but we do need to care about subjects choosing. 
 The location of choosing place may cause bias, for example, if we choose subjects from the hospital, the results may seem not true. Also, age, health condition, habits of exercises,nutrition differences can also cause bias. 
 So we should make sure all of the factors that may cause BMI change among the two group subjects are the same.
-
+Question b was written on the paper(attached in pdf)
 
 
 #problem3
-```{r}
+```{r Q1}
 knee = read.csv("Knee.csv",header = TRUE)
 descrip = tibble(
   var = c("Below", "Average", "Above" ),
@@ -115,7 +107,7 @@ descrip
 Comments:The mean decreasing order is :above,averange, below. This means people who have a worse physical status will need more time in physical therapy to get a successful rehabilitation.
 The sd decreasing order is :averange, above, below. The smaller sd value is , the more convencing that  the group`s mean can represent its charater.
 
-```{r}
+```{r Q2}
 ins1 = na.omit(knee$Below)
 ins2 = na.omit(knee$Average)
 ins3 = na.omit(knee$Above)
@@ -132,9 +124,17 @@ summary(res1)
 Because F_stat = 19.28 > F0.99,2,22 = 5.72 , p-value = 1.45e-05, fail to reject H0.
 At 0.01 significance level, we reject the null hypothesis and conclude that at least two of mean days required in physical therapy from three groups are different.
 
-```{r}
+```{r Q3}
+#pairwise comparisons 
+#bonferroni
+pairwise.t.test(new_data$time, new_data$ind,p.adj='bonferroni')
+#Tukey
+TukeyHSD(res1)
+#Dunnett
 
 ```
+The bonferroni,Tukey and Dunnut results all indicate that there is a statistically significant difference between the "below" and "above"  and "averange" and "above". But Turkey`s p-value is smaller than bonferroni.  
+
 
 
 
