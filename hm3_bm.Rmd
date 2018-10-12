@@ -1,0 +1,90 @@
+---
+title: "homework3"
+author: xw2598
+output: html_document
+---
+#problem2
+```{r p2-1}
+library(tidyverse)
+HeavySmoke = read.csv("HeavySmoke.csv",header = TRUE)
+  HeavySmoke = HeavySmoke[, -1] 
+#calculate the difference before and after 6 years quitting smoking
+  HeavySmoke = mutate(HeavySmoke,diff = BMI_6yrs - BMI_base)
+#show the table 
+  HeavySmoke
+#difference mean
+  diff_mean = mean(HeavySmoke$diff)
+#difference standard daviation
+  diff_sd = sd(HeavySmoke$diff)
+#Use one sample t-Test to test if the changes is equal to 0
+  #Normality assumed
+  #H0:mean difference = 0; H1: mean difference != 0
+  #diff_mean = 3,36, diff_sd = 2.46, N = 10
+  t_stat = diff_mean/(diff_sd/sqrt(10))
+  #Compare the test statistics with the critical value, alpha=0.05
+  qt(0.975,9)
+  #t_stat>qt(9,0.975),reject H0
+  p_value = 2*(1-pt(t_stat,9))
+  tibble(
+    d_bar = diff_mean,
+    sd = diff_sd,
+    t_stat = t_stat,
+    critical_value = qt(0.975,9),
+    alpha = 0.05,
+    pvalue = p_value
+  )
+```
+Interpretation:
+Since t_stat = 4.30 >t9,0.975 and p-value < 10^-3, we reject the null hypothesis and conclude that there are sufficient evidence that women`s BMI has changed after 6 years quitting smoking.
+
+```{r p2-2}
+NeverSmoke = read.csv("NeverSmoke.csv",header = TRUE) 
+NeverSmoke = NeverSmoke[,-1]
+NeverSmoke = mutate(NeverSmoke, d2 = BMI_6yrs - BMI_base)
+BmiChange = tibble(d1 = HeavySmoke$diff, d2 = NeverSmoke$d2)
+#two sample
+BmiChange
+#using two sample t-test to test whether the difference of two samples` changes is equal to 0 
+  #Normality assumed
+  #H0: variances are equal; H1: variances are not equal  
+d1_mean = mean(BmiChange$d1)
+d1_sd = sd(BmiChange$d1)
+d2_mean = mean(BmiChange$d2)
+d2_sd = sd(BmiChange$d2)
+#heavy smoke: n1 = 10, d1_bar = 3.36, sd1 = 2.46
+#never smoke: n2 = 10, d2_bar = 1.55, sd2 = 2.28
+F_stat = d1_sd^2/d2_sd^2
+qf(0.975,9,9)
+#F_stat = 1.55 < qf(0.975,9,9)
+#There not enough evidences to declare a different variance, fail to reject H0
+s = sqrt((9*d1_sd^2+9*d2_sd^2)/(10+10-2))
+ #H0:d1_bar = d2_bar; H1:d1_bar != d2_bar
+t2_stat = (d1_mean-d2_mean)/(s*sqrt(1/10+1/10))
+qt(0.975,18)
+#t2_stat<t18,0.975,fail to reject H0 and declare there is no enough evidencethe two sample has different mean.
+tibble(
+  d1_bar = d1_mean,
+  sd1 =d1_sd,
+  d2_bar = d2_mean,
+  sd2 = d2_sd,
+  estimate_s = s,
+  F_stat = F_stat,
+  F_Critical = qf(0.975,9,9),
+  t_stat = t2_stat,
+  t_Critical = qt(0.975,18)
+)
+```
+Interpretation: On the significance level of 0.05, we fail to reject the H0 and conclude that there is no enough evidence that BMI changes are different between the two groups--women who quitted smoking and women who never smoked over the 6 years.
+
+```{r p2_3}
+# Construct a 95% CI for part2
+CI = c((d1_mean - d2_mean) - qt(0.975,18)*s*sqrt(1/10+1/10), (d1_mean - d2_mean) + qt(0.975,18)*s*sqrt(1/10+1/10)) 
+CI
+```
+Interpretation: We are 95% confident that the true mean difference of Bmi over 6 years changes between women who quitted smoking and who never smoked would be in (-0.421, 4.041)
+
+```{r p2_4}
+
+```
+
+
