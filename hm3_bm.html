@@ -271,19 +271,21 @@ new_data&lt;-as.data.frame(cbind(time,ind))
 # Perform an ANOVA test:
 #H0:respect means of &quot;average&quot;,&quot;below&quot;,&quot;above&quot; groups are the same
 #H1:respect means of &quot;average&quot;,&quot;below&quot;,&quot;above&quot; groups are not the same
-res1&lt;-aov(time~factor(ind), data=new_data)
+new_data$ind = as.factor(new_data$ind)
+res1&lt;-aov(time~ind, data=new_data)
 qf(0.99,2,22)</code></pre>
 <pre><code>## [1] 5.719022</code></pre>
 <pre class="r"><code>summary(res1)</code></pre>
 <pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
-## factor(ind)  2  795.2   397.6   19.28 1.45e-05 ***
+## ind          2  795.2   397.6   19.28 1.45e-05 ***
 ## Residuals   22  453.7    20.6                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Because F_stat = 19.28 &gt; F0.99,2,22 = 5.72 , p-value = 1.45e-05, fail to reject H0. At 0.01 significance level, we reject the null hypothesis and conclude that at least two of mean days required in physical therapy from three groups are different.</p>
+<pre class="r"><code>library(multcomp)</code></pre>
 <pre class="r"><code>#pairwise comparisons 
 #bonferroni
-pairwise.t.test(new_data$time, new_data$ind,p.adj='bonferroni')</code></pre>
+pairwise.t.test(new_data$time, new_data$ind,p.adj='bonferroni',conf.level = 0.01)</code></pre>
 <pre><code>## 
 ##  Pairwise comparisons using t tests with pooled SD 
 ## 
@@ -295,19 +297,40 @@ pairwise.t.test(new_data$time, new_data$ind,p.adj='bonferroni')</code></pre>
 ## 
 ## P value adjustment method: bonferroni</code></pre>
 <pre class="r"><code>#Tukey
-TukeyHSD(res1)</code></pre>
+TukeyHSD(res1,conf.level = 0.01)</code></pre>
 <pre><code>##   Tukey multiple comparisons of means
-##     95% family-wise confidence level
+##     1% family-wise confidence level
 ## 
-## Fit: aov(formula = time ~ factor(ind), data = new_data)
+## Fit: aov(formula = time ~ ind, data = new_data)
 ## 
-## $`factor(ind)`
-##           diff       lwr        upr     p adj
-## 2-1  -5.000000 -10.41130  0.4113011 0.0736833
-## 3-1 -14.428571 -20.33278 -8.5243579 0.0000102
-## 3-2  -9.428571 -15.05051 -3.8066356 0.0010053</code></pre>
-<pre class="r"><code>#Dunnett</code></pre>
-<p>The bonferroni,Tukey and Dunnut results all indicate that there is a statistically significant difference between the “below” and “above” and “averange” and “above”. But Turkey`s p-value is smaller than bonferroni.</p>
+## $ind
+##           diff        lwr        upr     p adj
+## 2-1  -5.000000  -5.290913  -4.709087 0.0736833
+## 3-1 -14.428571 -14.745984 -14.111159 0.0000102
+## 3-2  -9.428571  -9.730808  -9.126334 0.0010053</code></pre>
+<pre class="r"><code>#Dunnett
+test.dunnett=glht(res1, linfct=mcp(ind =&quot;Dunnet&quot;),conf.level = 0.01) 
+summary(test.dunnett)</code></pre>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Dunnett Contrasts
+## 
+## 
+## Fit: aov(formula = time ~ ind, data = new_data)
+## 
+## Linear Hypotheses:
+##            Estimate Std. Error t value Pr(&gt;|t|)    
+## 2 - 1 == 0   -5.000      2.154  -2.321   0.0543 .  
+## 3 - 1 == 0  -14.429      2.350  -6.139 6.93e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## (Adjusted p values reported -- single-step method)</code></pre>
+<p>The bonferroni,Tukey and Dunnut results all indicate that there is a statistically significant difference between the “below” and “above” and “averange” and “above”. But Dunnet p-value is smaller than Turkey`s p-value than bonferroni.</p>
+<p>Q4.There are extremely strong evidence that people who are above or average physical status will need obviously less time in physical therapy until successful rehabillitation than people who are below physical status. But whether there is difference between people who are above and average physical status, we are only 94% confident that above physical status people will require less time than average people.</p>
+</div>
+<div id="problem4" class="section level1">
+<h1>problem4</h1>
 </div>
 
 

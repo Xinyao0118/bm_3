@@ -117,24 +117,33 @@ new_data<-as.data.frame(cbind(time,ind))
 # Perform an ANOVA test:
 #H0:respect means of "average","below","above" groups are the same
 #H1:respect means of "average","below","above" groups are not the same
-res1<-aov(time~factor(ind), data=new_data)
+new_data$ind = as.factor(new_data$ind)
+res1<-aov(time~ind, data=new_data)
 qf(0.99,2,22)
 summary(res1)
 ```
 Because F_stat = 19.28 > F0.99,2,22 = 5.72 , p-value = 1.45e-05, fail to reject H0.
 At 0.01 significance level, we reject the null hypothesis and conclude that at least two of mean days required in physical therapy from three groups are different.
+```{r, message=FALSE}
+library(multcomp)
+```
 
 ```{r Q3}
+
 #pairwise comparisons 
 #bonferroni
-pairwise.t.test(new_data$time, new_data$ind,p.adj='bonferroni')
+pairwise.t.test(new_data$time, new_data$ind,p.adj='bonferroni',conf.level = 0.01)
 #Tukey
-TukeyHSD(res1)
+TukeyHSD(res1,conf.level = 0.01)
 #Dunnett
-
+test.dunnett=glht(res1, linfct=mcp(ind ="Dunnet"),conf.level = 0.01) 
+summary(test.dunnett)
 ```
-The bonferroni,Tukey and Dunnut results all indicate that there is a statistically significant difference between the "below" and "above"  and "averange" and "above". But Turkey`s p-value is smaller than bonferroni.  
+The bonferroni,Tukey and Dunnut results all indicate that there is a statistically significant difference between the "below" and "above"  and "averange" and "above". But Dunnet p-value is smaller than Turkey`s p-value than bonferroni.
 
+Q4.There are extremely strong evidence that people who are above or average physical status will need obviously less time in physical therapy until successful rehabillitation than people who are below physical status. But whether there is difference between people who are above and average physical status, we are only 94% confident that above physical status people will require less time than average people.
+
+#problem4
 
 
 
