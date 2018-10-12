@@ -270,12 +270,22 @@ descrip</code></pre>
 <pre class="r"><code>ins1 = na.omit(knee$Below)
 ins2 = na.omit(knee$Average)
 ins3 = na.omit(knee$Above)
-insulin = c(ins1,ins2,ins3)
+time = c(ins1,ins2,ins3)
 ind&lt;-c(rep(1,length(ins1)),rep(2,length(ins2)),rep(3,length(ins3)))
-new_data&lt;-as.data.frame(cbind(insulin,ind))
+new_data&lt;-as.data.frame(cbind(time,ind))
 # Perform an ANOVA test:
 #H0:respect means of &quot;average&quot;,&quot;below&quot;,&quot;above&quot; groups are the same
-#H1:respect means of &quot;average&quot;,&quot;below&quot;,&quot;above&quot; groups are not the same</code></pre>
+#H1:respect means of &quot;average&quot;,&quot;below&quot;,&quot;above&quot; groups are not the same
+res1&lt;-aov(time~factor(ind), data=new_data)
+qf(0.99,2,22)</code></pre>
+<pre><code>## [1] 5.719022</code></pre>
+<pre class="r"><code>summary(res1)</code></pre>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## factor(ind)  2  795.2   397.6   19.28 1.45e-05 ***
+## Residuals   22  453.7    20.6                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<p>Because F_stat = 19.28 &gt; F0.99,2,22 = 5.72 , p-value = 1.45e-05, fail to reject H0. At 0.01 significance level, we reject the null hypothesis and conclude that at least two of mean days required in physical therapy from three groups are different.</p>
 </div>
 
 
