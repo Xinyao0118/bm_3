@@ -331,6 +331,30 @@ summary(test.dunnett)</code></pre>
 </div>
 <div id="problem4" class="section level1">
 <h1>problem4</h1>
+<pre class="r"><code>library(datasets)
+ncba = as.tibble(UCBAdmissions)
+#overall proportion of men
+p_male = sum(filter(ncba,Admit == &quot;Admitted&quot;, Gender == &quot;Male&quot; )$n)/sum((filter(ncba,Gender == &quot;Male&quot; ))$n)
+#overall number of men
+n_man = sum(filter(ncba,Gender == &quot;Male&quot; )$n)
+#overall proportion of women
+p_female = sum(filter(ncba,Admit == &quot;Admitted&quot;, Gender == &quot;Female&quot; )$n)/sum((filter(ncba,Gender == &quot;Female&quot; ))$n)
+#overall number of women
+n_women = sum(filter(ncba,Gender == &quot;Female&quot; )$n)
+#approximation
+n_women*p_female*(1-p_female)</code></pre>
+<pre><code>## [1] 387.927</code></pre>
+<pre class="r"><code>n_man*p_male*(1-p_male)</code></pre>
+<pre><code>## [1] 664.6652</code></pre>
+<pre class="r"><code>#np(1-p)&gt;5
+#Normal Approximation of Binominal
+var_men = p_male*(1-p_male)/n_man
+var_women = p_female*(1-p_female)
+#95%CI 
+CI = c((p_male - p_female) - qnorm(0.975)*sqrt(var_men+var_women), (p_male - p_female) + qnorm(0.975)*sqrt(var_men+var_women)) 
+CI</code></pre>
+<pre><code>## [1] -0.7597167  1.0430076</code></pre>
+<p>Interpretation: We are 95% confident that the true mean difference of difference proportions of men vs women admitted at Berkeley would be in (-0.7597167,1.0430076)</p>
 </div>
 
 

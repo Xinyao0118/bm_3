@@ -143,7 +143,33 @@ The bonferroni,Tukey and Dunnut results all indicate that there is a statistical
 
 Q4.There are extremely strong evidence that people who are above or average physical status will need obviously less time in physical therapy until successful rehabillitation than people who are below physical status. But whether there is difference between people who are above and average physical status, we are only 94% confident that above physical status people will require less time than average people.
 
+
 #problem4
+```{r}
+library(datasets)
+ncba = as.tibble(UCBAdmissions)
+#overall proportion of men
+p_male = sum(filter(ncba,Admit == "Admitted", Gender == "Male" )$n)/sum((filter(ncba,Gender == "Male" ))$n)
+#overall number of men
+n_man = sum(filter(ncba,Gender == "Male" )$n)
+#overall proportion of women
+p_female = sum(filter(ncba,Admit == "Admitted", Gender == "Female" )$n)/sum((filter(ncba,Gender == "Female" ))$n)
+#overall number of women
+n_women = sum(filter(ncba,Gender == "Female" )$n)
+#approximation
+n_women*p_female*(1-p_female)
+n_man*p_male*(1-p_male)
+#np(1-p)>5
+#Normal Approximation of Binominal
+var_men = p_male*(1-p_male)/n_man
+var_women = p_female*(1-p_female)
+#95%CI 
+CI = c((p_male - p_female) - qnorm(0.975)*sqrt(var_men+var_women), (p_male - p_female) + qnorm(0.975)*sqrt(var_men+var_women)) 
+CI
+```
+Interpretation: We are 95% confident that the true mean difference of difference proportions of  men vs women admitted at Berkeley would be in (-0.7597167,1.0430076)
+
+
 
 
 
