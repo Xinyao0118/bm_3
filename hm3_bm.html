@@ -267,6 +267,15 @@ descrip</code></pre>
 ## 2 Average    10  33    3.92
 ## 3 Above       7  23.6  4.20</code></pre>
 <p>Comments:The mean decreasing order is :above,averange, below. This means people who have a worse physical status will need more time in physical therapy to get a successful rehabilitation. The sd decreasing order is :averange, above, below. The smaller sd value is , the more convencing that the group`s mean can represent its charater.</p>
+<pre class="r"><code>ins1 = na.omit(knee$Below)
+ins2 = na.omit(knee$Average)
+ins3 = na.omit(knee$Above)
+insulin = c(ins1,ins2,ins3)
+ind&lt;-c(rep(1,length(ins1)),rep(2,length(ins2)),rep(3,length(ins3)))
+new_data&lt;-as.data.frame(cbind(insulin,ind))
+# Perform an ANOVA test:
+#H0:respect means of &quot;average&quot;,&quot;below&quot;,&quot;above&quot; groups are the same
+#H1:respect means of &quot;average&quot;,&quot;below&quot;,&quot;above&quot; groups are not the same</code></pre>
 </div>
 
 

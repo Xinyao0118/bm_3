@@ -116,6 +116,15 @@ Comments:The mean decreasing order is :above,averange, below. This means people 
 The sd decreasing order is :averange, above, below. The smaller sd value is , the more convencing that  the group`s mean can represent its charater.
 
 ```{r}
+ins1 = na.omit(knee$Below)
+ins2 = na.omit(knee$Average)
+ins3 = na.omit(knee$Above)
+insulin = c(ins1,ins2,ins3)
+ind<-c(rep(1,length(ins1)),rep(2,length(ins2)),rep(3,length(ins3)))
+new_data<-as.data.frame(cbind(insulin,ind))
+# Perform an ANOVA test:
+#H0:respect means of "average","below","above" groups are the same
+#H1:respect means of "average","below","above" groups are not the same
 
 
 ```
