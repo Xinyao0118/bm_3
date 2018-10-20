@@ -130,12 +130,12 @@ $(document).ready(function () {
 <div id="problem2write-on-the-paperthis-is-a-bonus" class="section level1">
 <h1>problem2—write on the paper,this is a bonus</h1>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ─ Attaching packages ───────────────────────────── tidyverse 1.2.1 ─</code></pre>
+<pre><code>## ─ Attaching packages ──────────────────── tidyverse 1.2.1 ─</code></pre>
 <pre><code>## ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
 ## ✔ tibble  1.4.2     ✔ dplyr   0.7.6
 ## ✔ tidyr   0.8.1     ✔ stringr 1.3.1
 ## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
-<pre><code>## ─ Conflicts ─────────────────────────────── tidyverse_conflicts() ─
+<pre><code>## ─ Conflicts ───────────────────── tidyverse_conflicts() ─
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>HeavySmoke = read.csv(&quot;HeavySmoke.csv&quot;,header = TRUE)
@@ -364,9 +364,7 @@ z_test = function(p1,p2,n1,n2){
  z_stat = z_test(0.45,0.30,2691,1835)
 #pvalue
   pvalue = 2*(1-pnorm(z_stat))
-  pvalue</code></pre>
-<pre><code>## [1] 0</code></pre>
-<pre class="r"><code>qnorm(0.975)</code></pre>
+qnorm(0.975)</code></pre>
 <pre><code>## [1] 1.959964</code></pre>
 <p>z_stat &gt; z0.975.At the 0.05 significance level,we reject H0 and conclude that the proportion of women admitted at Berkeley is different with the proportion of men admitted at Berkeley.</p>
 </div>

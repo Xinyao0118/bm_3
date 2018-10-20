@@ -179,7 +179,6 @@ z_test = function(p1,p2,n1,n2){
  z_stat = z_test(0.45,0.30,2691,1835)
 #pvalue
   pvalue = 2*(1-pnorm(z_stat))
-  pvalue
 qnorm(0.975)
 ```
 z_stat > z0.975.At the 0.05 significance level,we reject H0 and conclude that the proportion of women admitted at Berkeley is different with the proportion of men admitted at Berkeley.
